@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { getData } from "../utils/apiMock";
 import AppInitializer from "../store/AppInitializer";
 
 import RootStyleRegistry from "../emotion/emotion-root-style-registry";
+import SimpleStore from "../utils/SimpleStore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +18,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const data = await getData();
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
+  const data = SimpleStore.get("launchData");
+
   return (
     <html lang="en">
       <body className={inter.className}>
