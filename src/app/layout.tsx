@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import AppInitializer from "../store/AppInitializer";
 
 import RootStyleRegistry from "../emotion/emotion-root-style-registry";
-import SimpleStore from "../utils/SimpleStore";
-
-const inter = Inter({ subsets: ["latin"] });
+import { getData } from "../utils/apiMock";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,13 +16,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
-
-  const data = SimpleStore.get("launchData");
+  const cookiesStore = cookies();
+  const userType = cookiesStore.get('user-type')
+  const data = await getData(userType?.value as string);
+  console.log('layout page for zustanf in client', data);
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body >
         <RootStyleRegistry>
           <AppInitializer user={data}>{children}</AppInitializer>
         </RootStyleRegistry>
