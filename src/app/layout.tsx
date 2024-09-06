@@ -5,6 +5,7 @@ import AppInitializer from "../store/AppInitializer";
 import RootStyleRegistry from "../emotion/emotion-root-style-registry";
 import { getData } from "../utils/apiMock";
 import { cookies } from "next/headers";
+import { getInitialData } from "../utils/initalData";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,16 +17,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookiesStore = cookies();
-  const userType = cookiesStore.get('user-type')
-  const data = await getData(userType?.value as string);
-  console.log('layout page for zustanf in client', data);
+  const initialData = await getInitialData();
+  console.log("layout page for zustand in client", initialData);
 
   return (
     <html lang="en">
-      <body >
+      <body>
         <RootStyleRegistry>
-          <AppInitializer user={data}>{children}</AppInitializer>
+          <AppInitializer user={initialData}>{children}</AppInitializer>
         </RootStyleRegistry>
       </body>
     </html>

@@ -1,10 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
 /** @jsxImportSource @emotion/react */
+import { useRouter } from "next/navigation";
 import { useStore } from "../store/store";
 
 import styled from "@emotion/styled";
-import { useState } from "react";
 
 const Title = styled.div`
   font-size: 32px;
@@ -24,20 +23,6 @@ const SubTitle = styled.div`
 
 const ClientComponent = ({ text }: any) => {
   const user = useStore((store) => store.user);
-
-  const [data, setData] = useState<any>({ res: {result : "success"} });
-  console.log("client Component store", user);
-
-  const renderSimulation = () => {
-    try {
-      return (<Title>{data.res.result}</Title>);
-    } catch (error) {
-      return <Title>Error Refresh again</Title>;
-    }
-  };
-  const errorSimulation = () => {
-    setData({});
-  };
   const router = useRouter();
 
   return (
@@ -45,8 +30,6 @@ const ClientComponent = ({ text }: any) => {
       <Title>Client Component</Title>
       <SubTitle>{user?.title}</SubTitle>
       <SubTitle>{text}</SubTitle>
-      {/* <button onClick={errorSimulation}>Simulate Error</button>
-      {renderSimulation()} */}
     </Container>
   );
 };
